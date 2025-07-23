@@ -19,7 +19,7 @@ def remove_nested_blocks(text, start, end):
         i += 1
     return ''.join(result)
 
-def remove_all_artahetutyunner_blocks(text):
+def remove_all_expressions_blocks(text):
     lines = text.splitlines()
     result = []
     skipping = False
@@ -62,7 +62,7 @@ def getDefs(word):
         # data = remove_nested_blocks(data, "{{", "}}")
         # data = remove_nested_blocks(data, "[[", "]]")
 
-        data = remove_all_artahetutyunner_blocks(data)
+        data = remove_all_expressions_blocks(data)
 
 
         for line in data.splitlines():
