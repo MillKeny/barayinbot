@@ -28,7 +28,7 @@ def remove_all_expressions_blocks(text):
         if line.strip() == "===== Արտահայտություններ =====":
             skipping = True
             continue
-        if skipping and (line.startswith("=") or line.startswith("{")) and line.strip() != "===== Արտահայտություններ =====":
+        if skipping and line.startswith("=") and line.strip() != "===== Արտահայտություններ =====":
             skipping = False  # Found end of block
         if not skipping:
             result.append(line)
@@ -40,13 +40,13 @@ def getDefs(word):
         return {"Վիիիի աղջիիի": ['Դուք մտաք "Պոծոկ" գաղտնի ակումբ']}
 
     res = {
-        "Ածական": [],
         "Գոյական": [],
+        "Ածական": [],
+        "Բայ": [],
         "Շաղկապ": [],
         "Վերաբերական": [],
         "Թվական": [],
         "Դերանուն": [],
-        "Բայ": [],
         "Մակբայ": [],
         "Կապ": [],
         "Ձայնարկություն": [],
@@ -98,9 +98,10 @@ def getDefs(word):
                 elif "-hy-հատ-" in line:
                     mas = "Հատուկ անուն"
 
-            if line.startswith('# '):
+            if line.startswith('# ') or line.startswith('* '):
                 # print(line)
                 line = line.replace('# ', '')
+                line = line.replace('* ', '')
                 line = line.replace('[', '')
                 line = line.replace(']', '')
                 line = remove_nested_blocks(line, "{{", "}}")
@@ -115,4 +116,4 @@ def getDefs(word):
 
     return res
 
-# print(getDefs("հայաստան"))
+# print(getDefs("դուռ"))

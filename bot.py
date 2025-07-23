@@ -1,7 +1,7 @@
 from telegram import InlineQueryResultArticle, InputTextMessageContent, Update
 from telegram.ext import ApplicationBuilder, InlineQueryHandler, ContextTypes, CommandHandler
 from parser import getDefs
-from token import BOT_TOKEN
+from mytoken import BOT_TOKEN
 import uuid
 
 async def inline_query_handler(update: Update, context: ContextTypes.DEFAULT_TYPE):
