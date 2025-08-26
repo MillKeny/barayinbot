@@ -22,13 +22,15 @@ async def inline_query_handler(update: Update, context: ContextTypes.DEFAULT_TYP
     for k, v in defs.items():
         for i in v:
             n+=1
+            fordesc = i.replace('<i>', '')
+            fordesc = fordesc.replace('</i>', '')
             results.append(
                 InlineQueryResultArticle(
                     id=str(uuid.uuid4()),
                     title=k,
-                    description=str(n) + '. ' + i,
+                    description=str(n) + '. ' + fordesc,
                     input_message_content=InputTextMessageContent(
-                        message_text = f"<b>Բառ՝</b><blockquote>{query}</blockquote>\n<b>Բացատրություն՝</b><blockquote><b>{k + '\n'}</b>{str(n) + '. ' + i}</blockquote>",
+                        message_text = f"<b>Բառ՝</b>\n<blockquote>{query}</blockquote>\n<b>Բացատրություն՝</b>\n<blockquote><b>{k + '\n'}</b>{str(n) + '. ' + i}</blockquote>",
                         parse_mode = "HTML"
                     )
                 )
