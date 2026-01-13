@@ -10,7 +10,7 @@ async def inline_query_handler(update: Update, context: ContextTypes.DEFAULT_TYP
     if not query:
         return
 
-    print(f"{update.inline_query.from_user.first_name} ({update.inline_query.from_user.username}): {query}")
+    # print(f"{update.inline_query.from_user.first_name} ({update.inline_query.from_user.username}): {query}")
     defs = getDefs(query)
     if not any(defs.values()):
         defs = getDefs(query.capitalize())
@@ -30,8 +30,15 @@ async def inline_query_handler(update: Update, context: ContextTypes.DEFAULT_TYP
                     title=k,
                     description=str(n) + '. ' + fordesc,
                     input_message_content=InputTextMessageContent(
-                        message_text = f"<b>Բառ՝</b>\n<blockquote>{query}</blockquote>\n<b>Բացատրություն՝</b>\n<blockquote><b>{k + '\n'}</b>{str(n) + '. ' + i}</blockquote>",
-                        parse_mode = "HTML"
+                        message_text = (
+                            f"Բառ՝\n"
+                            f"<blockquote><b>{query}</b></blockquote>\n"
+                            f"Բացատրություն՝\n"
+                            f"<blockquote><u>{k + '\n'}</u><b>{str(n) + '. ' + i}</b></blockquote>\n\n"
+                            f"<a href=\"https://hy.wiktionary.org/wiki/{query}\">(wiki)</a>"
+                        ),
+                        parse_mode = "HTML",
+                        disable_web_page_preview=True
                     )
                 )
             )
@@ -41,10 +48,17 @@ async def inline_query_handler(update: Update, context: ContextTypes.DEFAULT_TYP
             InlineQueryResultArticle(
                 id=str(uuid.uuid4()),
                 title=query,
-                description="Այսպիսի բառ գոյություն չունի :(",
+                description="Այսպիսի բառ չգտանք :(",
                 input_message_content=InputTextMessageContent(
-                    message_text=f"<b>Բառ՝</b><blockquote>{query}</blockquote>\n<b>Բացատրություն՝</b><blockquote>Այսպիսի բառ գոյություն չունի :(</blockquote>",
-                    parse_mode="HTML"
+                    message_text=(   
+                        f"Բառ՝\n"
+                        f"<blockquote><b>{query}</b></blockquote>\n"
+                        f"Բացատրություն՝\n"
+                        f"<blockquote><b>Այսպիսի բառ չգտանք :(</b></blockquote>\n\n"
+                        f"<a href=\"https://hy.wiktionary.org/wiki/{query}\">(wiki)</a>"
+                    ),
+                    parse_mode="HTML",
+                    disable_web_page_preview=True
                 )
             )
         )

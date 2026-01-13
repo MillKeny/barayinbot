@@ -92,7 +92,9 @@ def getDefs(word):
         "Բացատրություն": [],
         "Հատուկ անուն": [],
         "Անգլերեն": [],
-        "Ռուսերեն": []
+        "Ռուսերեն": [],
+        "Բարբառային": [],
+        "Դարձվածք": []
     }
     mas = ""
 
@@ -145,10 +147,14 @@ def getDefs(word):
                 mas = "Բացատրություն"
             elif "-հատ-" in line:
                 mas = "Հատուկ անուն"
+            elif "-դար-" in line:
+                mas = "Դարձվածք"    
             elif "-en-" in line:
                 mas = "Անգլերեն"
             elif "-ru-" in line:
                 mas = "Ռուսերեն"
+            elif "-hyd-" in line:
+                mas = "Բարբառային"
 
         if line.startswith('# ') or line.startswith('* '):
             # print(line)
@@ -171,4 +177,4 @@ def getDefs(word):
 
     return res
 
-print(getDefs("բասկերեն"))
+#print(getDefs("նյարդերը սղոցել"))
