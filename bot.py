@@ -4,8 +4,11 @@ from parser import getDefs
 from mytoken import BOT_TOKEN
 import uuid
 
+# f"<a href=\"https://hy.wiktionary.org/wiki/{query}\">(wiki)</a>"
+
 async def inline_query_handler(update: Update, context: ContextTypes.DEFAULT_TYPE):
-    query = update.inline_query.query.lower()
+    original_query = update.inline_query.query
+    query = original_query.lower()
 
     if not query:
         return
@@ -14,6 +17,8 @@ async def inline_query_handler(update: Update, context: ContextTypes.DEFAULT_TYP
     defs = getDefs(query)
     if not any(defs.values()):
         defs = getDefs(query.capitalize())
+    if not any(defs.values()):
+        defs = getDefs(original_query)
 
 
     results = []
@@ -34,8 +39,7 @@ async def inline_query_handler(update: Update, context: ContextTypes.DEFAULT_TYP
                             f"Բառ՝\n"
                             f"<blockquote><b>{query}</b></blockquote>\n"
                             f"Բացատրություն՝\n"
-                            f"<blockquote><u>{k + '\n'}</u><b>{str(n) + '. ' + i}</b></blockquote>\n\n"
-                            f"<a href=\"https://hy.wiktionary.org/wiki/{query}\">(wiki)</a>"
+                            f"<blockquote><u>{k + '\n'}</u><b>{str(n) + '. ' + i}</b></blockquote>"
                         ),
                         parse_mode = "HTML",
                         disable_web_page_preview=True
@@ -54,8 +58,7 @@ async def inline_query_handler(update: Update, context: ContextTypes.DEFAULT_TYP
                         f"Բառ՝\n"
                         f"<blockquote><b>{query}</b></blockquote>\n"
                         f"Բացատրություն՝\n"
-                        f"<blockquote><b>Այսպիսի բառ չգտանք :(</b></blockquote>\n\n"
-                        f"<a href=\"https://hy.wiktionary.org/wiki/{query}\">(wiki)</a>"
+                        f"<blockquote><b>Այսպիսի բառ չգտանք :(</b></blockquote>"
                     ),
                     parse_mode="HTML",
                     disable_web_page_preview=True

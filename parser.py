@@ -1,6 +1,7 @@
-import urllib.request, json, re
 import requests
 from urllib.parse import quote
+import urllib.request, json, re
+from bs4 import BeautifulSoup
 
 def remove_nested_blocks(text, start, end):
     result = []
@@ -73,6 +74,8 @@ def remove_all_expressions_blocks(text):
             result.append(line)
 
     return "\n".join(result)
+            
+    return res
 
 def getDefs(word):
     if word == 'պոծոկ':
@@ -177,4 +180,4 @@ def getDefs(word):
 
     return res
 
-#print(getDefs("նյարդերը սղոցել"))
+#print(getDefs("Ադամին կուկուզ տեսնել, Եվային՝ պուպուզ"))
