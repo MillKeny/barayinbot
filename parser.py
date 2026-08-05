@@ -1,26 +1,7 @@
 import requests
 from urllib.parse import quote
-import urllib.request, json, re
-from bs4 import BeautifulSoup
+import re
 
-def remove_nested_blocks(text, start, end):
-    result = []
-    depth = 0
-    i = 0
-    while i < len(text):
-        if text[i:i+len(start)] == start:
-            depth += 1
-            i += len(start)
-            continue
-        if text[i:i+len(end)] == end and depth > 0:
-            depth -= 1
-            i += len(end)
-            continue
-        if depth == 0:
-            result.append(text[i])
-        i += 1
-    return ''.join(result)
-    
 def italicize_nested_blocks(text, start="{{", end="}}"):
     result = []
     buffer = []
@@ -74,8 +55,6 @@ def remove_all_expressions_blocks(text):
             result.append(line)
 
     return "\n".join(result)
-            
-    return res
 
 def getDefs(word):
     if word == 'պոծոկ':
@@ -111,9 +90,6 @@ def getDefs(word):
     r.raise_for_status()
     data = r.json()
     data = str(data).replace('\\n', '\n')
-
-    # data = remove_nested_blocks(data, "{{", "}}")
-    # data = remove_nested_blocks(data, "[[", "]]")
 
     data = remove_all_expressions_blocks(data)
 
@@ -160,17 +136,13 @@ def getDefs(word):
                 mas = "Բարբառային"
 
         if line.startswith('# ') or line.startswith('* '):
-            # print(line)
             line = line.replace('# ', '')
             line = line.replace('* ', '')
             line = line.replace('[', '')
             line = line.replace(']', '')
             line = line.replace('|', ' ')
             line = line.replace("'}}}}}", '')
-            # line = remove_nested_blocks(line, "{{", "}}")
-            # line = remove_nested_blocks(line, "[[", "]]")
             line = italicize_nested_blocks(line)
-            # print(line)
             if line != '':
                 line = line.strip()
                 try:
@@ -179,5 +151,3 @@ def getDefs(word):
                     continue
 
     return res
-
-#print(getDefs("Ադամին կուկուզ տեսնել, Եվային՝ պուպուզ"))
