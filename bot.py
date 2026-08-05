@@ -4,8 +4,6 @@ from parser import getDefs
 from mytoken import BOT_TOKEN
 import uuid
 
-# f"<a href=\"https://hy.wiktionary.org/wiki/{query}\">(wiki)</a>"
-
 async def inline_query_handler(update: Update, context: ContextTypes.DEFAULT_TYPE):
     original_query = update.inline_query.query
     query = original_query.lower()
@@ -13,7 +11,6 @@ async def inline_query_handler(update: Update, context: ContextTypes.DEFAULT_TYP
     if not query:
         return
 
-    # print(f"{update.inline_query.from_user.first_name} ({update.inline_query.from_user.username}): {query}")
     defs = getDefs(query)
     if not any(defs.values()):
         defs = getDefs(query.capitalize())
